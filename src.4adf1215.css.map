@@ -1,0 +1,1 @@
+{"version":3,"sources":["styles.css"],"names":[],"mappings":"AAAA,YAEE,qBACF,CACA,mBAHE,YAKF","file":"src.4adf1215.css","sourceRoot":"../src","sourcesContent":[".photo-card {\n  display: flex;\n  flex-direction: column;\n}\n.stats {\n  display: flex;\n}\n"]}
