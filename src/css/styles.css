@@ -1,0 +1,7 @@
+.photo-card {
+  display: flex;
+  flex-direction: column;
+}
+.stats {
+  display: flex;
+}
