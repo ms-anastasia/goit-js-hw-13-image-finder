@@ -10,9 +10,17 @@ export default class ImgApiService {
   fetchImg() {
     return fetch(
     `${BASE_URL}?image_type=photo&orientation=horizontal&q=${this.searchQuery}&page=${this.page}&per_page=12&key=${API_KEY}`,
-    ).then(response => response.json())
+    ).then(response => {
+      if (!response.ok) {
+        throw new Error('Something went wrong');
+      };
+      return response.json()
+    })
       .then(({ hits }) => {
         this.incrementPage();
+        if (hits.length === 0) {
+          throw new Error('Information not found');
+                };
         return hits;
       });
   }

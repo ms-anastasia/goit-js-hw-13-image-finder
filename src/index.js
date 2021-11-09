@@ -23,22 +23,32 @@ refs.loadMoreBtn.addEventListener('click', onLoadMore);
 
 function onSearch(e) {
   e.preventDefault();
+  clearContainer();
 
-  imgApiService.searchQuery = e.currentTarget.elements.query.value;
   imgApiService.resetPage();
-  imgApiService.fetchImg().then(hits => {
-    clearContainer();
-    renderGallery(hits);
-  });
+  imgApiService.searchQuery = e.currentTarget.elements.query.value;
   if (imgApiService.searchQuery === '') {
         defaultModules.set(PNotifyMobile, {});
         return alert({
-            text: '! Enter something!',
+            text: '! Search query is empty!',
             addClass: 'notify',
             delay: 2000,
         });
 
-    };
+  };
+  
+  imgApiService.fetchImg().then(hits => {
+    clearContainer();
+    renderGallery(hits);
+  }).catch(error => {
+            console.log(error);
+            defaultModules.set(PNotifyMobile, {});
+            return alert({
+                text: '! Information is not found!',
+                addClass: 'notify',
+                delay: 2000,
+            });
+        });;
 }
 function renderGallery(hits) {
   if (hits.length >= 12) {
@@ -52,27 +62,14 @@ function renderGallery(hits) {
 function onLoadMore(hits) {
   imgApiService.fetchImg().then(renderGallery);
   const element = refs.loadMoreBtn;
-element.scrollIntoView({
+  element.scrollIntoView({
   behavior: 'smooth',
   block: 'end',
 });
 }
 function clearContainer() {
-    refs.galleryContainer.innerHTML = '';
+  refs.galleryContainer.innerHTML = '';
+  loadMoreBtn.hide();
 }
-  // if (imgApiService.query === '') {
-  //   return alert('Введи что-то нормальное');
-// //   loadMoreBtn.show();
-//   imgApiService.resetPage();
-// //   clearContainer();
-//   fetchGallery();
-// }
 
-// function fetchGallery() {
-// //   loadMoreBtn.disable();
-//   imgApiService.fetchGallery().then(gallery => {
-//     appendGalleryMarkup(gallery);
-//     // loadMoreBtn.enable();
-//   });
-// }
 
